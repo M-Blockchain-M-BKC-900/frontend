@@ -35,7 +35,6 @@ const NFTCard = ({ nft }) => {
   const [hover, setHover] = useState(false);
 
   const handleBuy = () => {
-    // Logique pour gérer l'achat
   };
 
   return (
