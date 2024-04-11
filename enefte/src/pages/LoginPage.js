@@ -5,14 +5,14 @@ const LoginPage = () => {
   return (
     <Box sx={{
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'center',
-      height: '100%',
-      width: '100%'
+      alignItems: 'center',  // Ajout pour alignement vertical
+      height: '100%',  // Utiliser 100vh pour prendre toute la hauteur de la vue
+      width: '100%'  // Utiliser 100% pour prendre toute la largeur de la vue
     }}>
       <Box sx={{
-        width: '50%',
-        height: '100%',
+        width: '50%',  // Largeur de la boîte de connexion
+        height: '50%',  // Hauteur de la boîte de connexion
         bgcolor: '#1E292E',
         borderRadius: '16px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',

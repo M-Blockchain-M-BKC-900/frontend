@@ -8,14 +8,16 @@ import { Box } from '@mui/material';
 export default function App() {
   return (
     <Router>
-      <Box sx={{ display: 'flex', height: '100%', widht: '100%' }}>
+      <Box sx={{ display: 'flex', height: '100%',}}>
         <NavBar />
-          <Box component="main" sx={{ overflowY: 'auto', height: '100%', widtht: '100%'}}>
-            <Routes>
-              <Route path="/" element={<Marketplace />} />
-              <Route path="/marketplace" element={<Marketplace />} />
-              <Route path="/login" element={<LoginPage />} />
-            </Routes>
+          <Box component="main" sx={{ overflowY: 'auto', width: '100%'}}>
+            <Box component="main" sx={{ overflowX: 'auto', height: '100%'}}>
+              <Routes>
+                <Route path="/" element={<Marketplace />} />
+                <Route path="/marketplace" element={<Marketplace />} />
+                <Route path="/login" element={<LoginPage />} />
+              </Routes>
+            </Box>
           </Box>
       </Box>
     </Router>
