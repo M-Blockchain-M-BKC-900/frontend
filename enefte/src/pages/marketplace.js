@@ -25,7 +25,7 @@ const Marketplace = () => {
     }, []);
 
     return (
-        <Box sx={{ backgroundColor: 'grey.50', width: '90%', marginLeft: 'auto'}}>
+        <Box sx={{ width: '100%', marginLeft: 'auto'}}>
             <Grid container spacing={5} margin={'auto'} width={'90%'}>
                 {nfts.map(nft => (
                     <Grid item key={nft.id} xs={12} sm={6} md={3}>
