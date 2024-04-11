@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import { Typography, Grid, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import ShowNftInfo from './ShowNftInfo';
 
 const StyledCard = styled(Card)({
     maxWidth: 450,
@@ -33,8 +34,18 @@ const StyledCardActions = styled(CardActions)({
 
 const NFTCard = ({ nft }) => {
   const [hover, setHover] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
 
-  const handleBuy = () => {
+  const handleOpenPopup = () => {
+    setOpenPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
+
+  const handleBuy = (product) => {
+    console.log('Acheter', product);
   };
 
   return (
@@ -71,14 +82,15 @@ const NFTCard = ({ nft }) => {
         </Grid>
       </CardContent>
       <StyledCardContent></StyledCardContent>
+      <ShowNftInfo open={openPopup} handleClose={handleClosePopup} handleBuy={handleBuy} nft={nft}/>
       <StyledCardActions style={{ opacity: hover ? 1 : 0 }}>
         <Button 
           variant='contained' 
           size="large" 
-          onClick={handleBuy} 
+          onClick={handleOpenPopup} 
           style={{ borderRadius: '0 0 12px 12px', height: '35px' }}
           fullWidth>
-          Buy
+          See more
         </Button>
       </StyledCardActions>
     </StyledCard>

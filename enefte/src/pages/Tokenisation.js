@@ -7,6 +7,7 @@ function Tokenisation() {
     const [image, setImage] = useState(null);
     const [tokenName, setTokenName] = useState('');
     const [blockchainName, setBlockchainName] = useState('');
+    const [tokenDescription, setTokenDescription] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
 
     const handleImageChange = (event) => {
@@ -22,6 +23,10 @@ function Tokenisation() {
 
     const handleTokenNameChange = (event) => {
         setTokenName(event.target.value);
+    };
+
+    const handleTokenDescription = (event) => {
+        setTokenDescription(event.target.value);
     };
 
     const handleBlockchainNameChange = (event) => {
@@ -42,7 +47,7 @@ function Tokenisation() {
     };
 
     return (
-        <Box sx={{ backgroundColor: 'grey.50', width: '90%', marginLeft: 'auto' }}>
+        <Box sx={{ backgroundColor: 'grey.50', width: '100%', marginLeft: 'auto' }}>
             <Card sx={{ p: 3, width: '20%', margin: 'auto' }}>
                 <Typography variant="h6" sx={{ mb: 2 }}>
                     Create your own NFT
@@ -50,6 +55,7 @@ function Tokenisation() {
                 <ImageUpload onImageChange={handleImageChange} imagePreview={imagePreview} />
                 <CustomTextInput label="Token name" value={tokenName} onChange={handleTokenNameChange} />
                 <CustomTextInput label="Blockchain name" value={blockchainName} onChange={handleBlockchainNameChange} />
+                <CustomTextInput label="Description" value={tokenDescription} onChange={handleTokenDescription} scalable={true} />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                     <Button variant="outlined" onClick={handleCancel} color="error">
                         Cancel
