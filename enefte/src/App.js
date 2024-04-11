@@ -1,16 +1,26 @@
-import Button from '@mui/material/Button';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Marketplace from './pages/marketplace';
-import Tokenisation from './pages/tokenisation';
+import NavBar from './components/NavBar';
+import Marketplace from './pages/Marketplace';
+import LoginPage from './pages/LoginPage';
+import { Box } from '@mui/material';
 
 export default function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Marketplace />} /> 
-        <Route path="/marketplace" element={<Marketplace />} />
-        <Route path="/token" element={<Tokenisation />} />
-      </Routes>
+      <Box sx={{ display: 'flex', height: '100%',}}>
+        <NavBar />
+          <Box component="main" sx={{ overflowY: 'auto', width: '100%'}}>
+            <Box component="main" sx={{ overflowX: 'auto', height: '100%'}}>
+              <Routes>
+                <Route path="/" element={<Marketplace />} />
+                <Route path="/marketplace" element={<Marketplace />} />
+                <Route path="/token" element={<Tokenisation />} />
+                <Route path="/login" element={<LoginPage />} />
+              </Routes>
+            </Box>
+          </Box>
+      </Box>
     </Router>
   );
 }
