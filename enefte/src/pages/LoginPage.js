@@ -36,6 +36,15 @@ const LoginPage = () => {
           placeholder="Enter your email address"
           sx={{ mb: 2, input: { color: 'white' }, backgroundColor: 'rgba(255,255,255,0.1)' }}
         />
+        <Typography sx={{ color: 'white', mb: 1, fontWeight: 'bold' }}>
+          Password
+        </Typography>
+        <TextField
+          variant="filled"
+          fullWidth
+          placeholder="Enter your password"
+          sx={{ mb: 2, input: { color: 'white' }, backgroundColor: 'rgba(255,255,255,0.1)' }}
+        />
         <Button variant="contained" sx={{ mt: 2, bgcolor: 'white', color: '#1E292E' }}>
           Continue
         </Button>
