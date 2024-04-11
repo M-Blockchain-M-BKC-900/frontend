@@ -6,20 +6,19 @@ const LoginPage = () => {
   const [walletID, setWalletID] = useState('');
   const [newWalletID, setNewWalletID] = useState('');
 
-  // Simuler la création d'un wallet
+
   const handleCreateWallet = () => {
-    // Simuler un ID de wallet généré
     const generatedWalletID = 'xrp1234567890';
     setNewWalletID(generatedWalletID);
   };
 
-  // Fonction pour copier l'ID du Wallet dans le presse-papiers
+
   const handleCopyToClipboard = () => {
     if (newWalletID) {
       navigator.clipboard.writeText(newWalletID).then(() => {
-        alert('Wallet ID copied to clipboard!'); // Notification de la copie réussie
+        alert('Wallet ID copied to clipboard!');
       }, (err) => {
-        console.error('Could not copy text: ', err); // Gérer les erreurs de copie
+        console.error('Could not copy text: ', err);
       });
     }
   };
