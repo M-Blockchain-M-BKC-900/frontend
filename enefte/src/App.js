@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import Marketplace from './pages/MarketPlace';
+import Marketplace from './pages/Marketplace';
 import LoginPage from './pages/LoginPage';
 import { Box } from '@mui/material';
 
