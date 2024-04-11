@@ -15,6 +15,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Marketplace />} />
                 <Route path="/marketplace" element={<Marketplace />} />
+                <Route path="/token" element={<Tokenisation />} />
                 <Route path="/login" element={<LoginPage />} />
               </Routes>
             </Box>
