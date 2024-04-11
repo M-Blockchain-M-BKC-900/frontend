@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Marketplace from './pages/Marketplace';
 import LoginPage from './pages/LoginPage';
+import Tokenisation from './pages/tokenisation';
 import { Box } from '@mui/material';
 
 export default function App() {

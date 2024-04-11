@@ -42,6 +42,8 @@ const NavBar = () => {
         <Button
           startIcon={<TokenIcon sx={{ color: '#1E292E' }} />}
           variant="contained"
+          component={Link}
+          to="/token"
           sx={{
             backgroundColor: 'white',
             color: '#1E292E',
@@ -57,7 +59,7 @@ const NavBar = () => {
         <Button
           startIcon={<LoginIcon sx={{ color: '#1E292E'}} />}
           variant="contained"
-          component={Link}  // Assurez-vous d'importer Link de react-router-dom
+          component={Link}
           to="/login"
           sx={{
             backgroundColor: 'white',
