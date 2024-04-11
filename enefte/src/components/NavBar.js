@@ -42,6 +42,8 @@ const NavBar = () => {
         <Button
           startIcon={<TokenIcon sx={{ color: '#1E292E' }} />}
           variant="contained"
+          component={Link}
+          to="/token"
           sx={{
             backgroundColor: 'white',
             color: '#1E292E',

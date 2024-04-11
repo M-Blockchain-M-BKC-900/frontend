@@ -4,6 +4,7 @@ import NavBar from './components/NavBar';
 import Marketplace from './pages/Marketplace';
 import LoginPage from './pages/LoginPage';
 import { Box } from '@mui/material';
+import Tokenisation from './pages/Tokenisation';
 
 export default function App() {
   return (
