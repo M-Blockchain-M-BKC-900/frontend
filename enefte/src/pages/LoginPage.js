@@ -8,18 +8,54 @@ const LoginPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [openSnackbarTimeout, setOpenSnackbarTimeout] = useState(false);
   const [openSnackbarCopied, setOpenSnackbarCopied] = useState(false);
+  const [accessToken, setAccessToken] = useState('');
 
-  const handleCreateWallet = () => {
+  const handleLogin = async () => {
+    const url = 'http://localhost:3000/auth/login';
+    const formData = new URLSearchParams();
+    formData.append('seed', walletID);
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        // Stockage du token dans sessionStorage
+        sessionStorage.setItem('accessToken', data.access_token);
+        console.log('Login successful:', data);
+      } else {
+        throw new Error('Failed to login');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+
+  const handleCreateWallet = async () => {
     setIsButtonDisabled(true);
     setOpenSnackbarTimeout(true);
-    const generatedWalletID = 'xrp1234567890';
-    setNewWalletID(generatedWalletID);
-
+  
+    try {
+      const response = await fetch('http://localhost:3000/auth/create');
+      const data = await response.json();
+      console.log(data);
+      setNewWalletID(data.seed);
+    } catch (error) {
+      console.error('Failed to create wallet:', error);
+    }
+  
     setTimeout(() => {
       setIsButtonDisabled(false);
       setOpenSnackbarTimeout(false);
     }, 60000);
   };
+  
 
   const handleCopyToClipboard = () => {
     if (newWalletID) {
@@ -69,7 +105,7 @@ const LoginPage = () => {
           placeholder="Enter your Wallet ID"
           sx={{ mb: 2, input: { color: 'white' }, backgroundColor: 'rgba(255,255,255,0.1)' }}
         />
-        <Button variant="contained" sx={{ mt: 2, bgcolor: 'white', color: '#1E292E', ':hover': { backgroundColor: 'grey.300' }}}>
+        <Button onClick={handleLogin} variant="contained" sx={{ mt: 2, bgcolor: 'white', color: '#1E292E', ':hover': { backgroundColor: 'grey.300' }}}>
           Connect
         </Button>
         <Button onClick={handleCreateWallet} disabled={isButtonDisabled} variant="contained" sx={{ mt: 2, bgcolor: 'white', color: '#1E292E', marginTop: '10px', ':hover': { backgroundColor: 'grey.300' }}}>
@@ -81,19 +117,19 @@ const LoginPage = () => {
           </Alert>
         </Snackbar>
         <Snackbar open={openSnackbarCopied} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-          <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-            Wallet ID copied to clipboard!
-          </Alert>
+            <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                Seed copied to clipboard!
+            </Alert>
         </Snackbar>
         {newWalletID && (
-          <Box sx={{ display: 'flex', alignItems: 'center', color: 'white', mt: 2 }}>
-            <Typography sx={{ color: 'white', marginRight: '10px' }}>
-              Copy your Wallet ID
-            </Typography>
-            <Button onClick={handleCopyToClipboard} sx={{ minWidth: '10px', padding: '4px', bgcolor: 'white', color: '#1E292E', ':hover': { backgroundColor: 'grey.300' }}}>
-              <ContentCopyIcon fontSize="small" />
-            </Button>
-          </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', color: 'white', mt: 2 }}>
+                <Typography sx={{ color: 'white', marginRight: '10px' }}>
+                Copy your Seed
+                </Typography>
+                <Button onClick={handleCopyToClipboard} sx={{ minWidth: '10px', padding: '4px', bgcolor: 'white', color: '#1E292E', ':hover': { backgroundColor: 'grey.300' }}}>
+                <ContentCopyIcon fontSize="small" />
+                </Button>
+            </Box>
         )}
       </Box>
     </Box>
