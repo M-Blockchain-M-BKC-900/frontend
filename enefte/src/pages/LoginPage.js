@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Snackbar, Alert } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useNavigate } from 'react-router-dom';
+import { login, createWallet } from '../api';
+import { copyToClipboard } from '../components/utils';
 
 const LoginPage = () => {
   const [walletID, setWalletID] = useState('');
@@ -12,19 +14,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const url = 'http://localhost:3000/auth/login';
-    const formData = new URLSearchParams();
-    formData.append('seed', walletID);
-  
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: formData
-      });
-  
+      const response = await login(walletID);
       const data = await response.json();
       if (response.ok) {
         sessionStorage.setItem('accessToken', data.access_token);
@@ -43,7 +34,7 @@ const LoginPage = () => {
     setOpenSnackbarTimeout(true);
   
     try {
-      const response = await fetch('http://localhost:3000/auth/create');
+      const response = await createWallet();
       const data = await response.json();
       console.log(data);
       setNewWalletID(data.seed);
@@ -58,13 +49,10 @@ const LoginPage = () => {
   };
   
 
-  const handleCopyToClipboard = () => {
+  const handleCopyToClipboard = async () => {
     if (newWalletID) {
-      navigator.clipboard.writeText(newWalletID).then(() => {
-        setOpenSnackbarCopied(true);
-      }, (err) => {
-        console.error('Could not copy text: ', err);
-      });
+      const success = await copyToClipboard(newWalletID);
+      setOpenSnackbarCopied(success);
     }
   };
 
