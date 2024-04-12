@@ -31,10 +31,52 @@ function Tokenisation() {
 
     const handleBlockchainNameChange = (event) => {
         setBlockchainName(event.target.value);
+        fetchImageFromLink(event.target.value);
     };
 
-    const handleConfirm = () => {
-        console.log('Confirming NFT creation with:', { image, tokenName, blockchainName });
+    const fetchImageFromLink = (link) => {
+        fetch(link)
+            .then(response => response.blob())
+            .then(blob => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImagePreview(reader.result);
+                };
+                reader.readAsDataURL(blob);
+            })
+            .catch(error => {
+                console.error('Error fetching image:', error);
+                setImagePreview(null);
+            });
+    };
+
+    const handleConfirm = async () => {
+        const url = 'http://localhost:3000/nft';
+        const accessToken = sessionStorage.getItem('accessToken');
+        const formData = new URLSearchParams();
+        formData.append('token', accessToken);
+        formData.append('title', tokenName)
+        formData.append('text', tokenDescription)
+        formData.append('picture', String(blockchainName))
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData
+            });
+            const data = await response.json();
+            console.log(response)
+            if (response.ok) {
+                console.log("coucou les loulous")
+            } else {
+                throw new Error('Fail sending request');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+        }
     };
 
     const handleCancel = () => {
@@ -47,7 +89,7 @@ function Tokenisation() {
     };
 
     return (
-        <Box sx={{ backgroundColor: 'grey.50', width: '100%', marginLeft: 'auto' }}>
+        <Box sx={{ width: '100%', marginLeft: 'auto' }}>
             <Card sx={{ p: 3, width: '20%', margin: 'auto' }}>
                 <Typography variant="h6" sx={{ mb: 2 }}>
                     Create your own NFT
