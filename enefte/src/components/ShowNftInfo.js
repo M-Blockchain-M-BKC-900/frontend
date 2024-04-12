@@ -6,7 +6,7 @@ export default function ShowNftInfo({ open, handleClose, handleBuy, nft }) {
     return (
         <Dialog open={open} onClose={handleClose}   PaperProps={{ sx: { borderRadius: "22px" } }}>
             <DialogTitle variant='subtitle'>{nft.name}</DialogTitle>
-            <DialogTitle>Price : {nft.price} ETH</DialogTitle>
+            <DialogTitle>Blockchain : {nft.blockchain}</DialogTitle>
             <DialogContent>
                 <img src={nft.image} alt={nft.name} style={{ width: '100%', height: 'auto' }} />
                 <Typography marginTop={'10px'}>{nft.description}</Typography>

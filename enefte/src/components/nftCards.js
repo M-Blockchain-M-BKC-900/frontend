@@ -7,21 +7,23 @@ import Button from '@mui/material/Button';
 import { Typography, Grid, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ShowNftInfo from './ShowNftInfo';
+import BuyNftPopup from './nftCarousel';
+import { wait } from '@testing-library/user-event/dist/utils';
 
 const StyledCard = styled(Card)({
-    maxWidth: 450,
-    borderRadius: '12px',
-    position: 'relative',
-    overflow: 'hidden',
-    transition: 'transform .5s ease-in-out',
-    '&:hover': {
-        transform: 'scale(1.03)',
-    }
+  maxWidth: 450,
+  borderRadius: '12px',
+  position: 'relative',
+  overflow: 'hidden',
+  transition: 'transform .5s ease-in-out',
+  '&:hover': {
+    transform: 'scale(1.03)',
+  }
 });
 
 const StyledCardContent = styled(CardContent)({
-    paddingBottom: '16px',
-  });
+  paddingBottom: '16px',
+});
 
 const StyledCardActions = styled(CardActions)({
   position: 'absolute',
@@ -35,6 +37,7 @@ const StyledCardActions = styled(CardActions)({
 const NFTCard = ({ nft }) => {
   const [hover, setHover] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
+  const [openCarousel, setOpenCarousel] = useState(false);
 
   const handleOpenPopup = () => {
     setOpenPopup(true);
@@ -44,13 +47,24 @@ const NFTCard = ({ nft }) => {
     setOpenPopup(false);
   };
 
+  const handleOpenCarousel = () => {
+    setOpenCarousel(true);
+  };
+
+  const handleCloseCarousel = () => {
+    setOpenCarousel(false);
+  };
+
   const handleBuy = (product) => {
-    console.log('Acheter', product);
+    handleClosePopup();
+    setTimeout(() => {
+      handleOpenCarousel();
+    }, 1000);
   };
 
   return (
-    <StyledCard 
-      onMouseEnter={() => setHover(true)} 
+    <StyledCard
+      onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       <CardMedia
@@ -73,21 +87,22 @@ const NFTCard = ({ nft }) => {
           </Box>
           <Box>
             <Typography variant="body2" color="text.secondary">
-              Price
+              Blockchain
             </Typography>
             <Typography variant="body2" color="text.primary" fontWeight='bold'>
-              {nft.price} ETH
+              {nft.blockchain}
             </Typography>
           </Box>
         </Grid>
       </CardContent>
       <StyledCardContent></StyledCardContent>
-      <ShowNftInfo open={openPopup} handleClose={handleClosePopup} handleBuy={handleBuy} nft={nft}/>
+      <ShowNftInfo open={openPopup} handleClose={handleClosePopup} handleBuy={handleBuy} nft={nft} />
+      <BuyNftPopup open={openCarousel} handleClose={handleCloseCarousel} />
       <StyledCardActions style={{ opacity: hover ? 1 : 0 }}>
-        <Button 
-          variant='contained' 
-          size="large" 
-          onClick={handleOpenPopup} 
+        <Button
+          variant='contained'
+          size="large"
+          onClick={handleOpenPopup}
           style={{ borderRadius: '0 0 12px 12px', height: '35px' }}
           fullWidth>
           See more
