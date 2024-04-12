@@ -8,7 +8,6 @@ const LoginPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [openSnackbarTimeout, setOpenSnackbarTimeout] = useState(false);
   const [openSnackbarCopied, setOpenSnackbarCopied] = useState(false);
-  const [accessToken, setAccessToken] = useState('');
 
   const handleLogin = async () => {
     const url = 'http://localhost:3000/auth/login';
@@ -26,7 +25,6 @@ const LoginPage = () => {
   
       const data = await response.json();
       if (response.ok) {
-        // Stockage du token dans sessionStorage
         sessionStorage.setItem('accessToken', data.access_token);
         console.log('Login successful:', data);
       } else {
