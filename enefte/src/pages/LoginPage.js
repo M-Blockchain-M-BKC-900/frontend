@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Snackbar, Alert } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [walletID, setWalletID] = useState('');
@@ -8,6 +9,7 @@ const LoginPage = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [openSnackbarTimeout, setOpenSnackbarTimeout] = useState(false);
   const [openSnackbarCopied, setOpenSnackbarCopied] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     const url = 'http://localhost:3000/auth/login';
@@ -27,6 +29,7 @@ const LoginPage = () => {
       if (response.ok) {
         sessionStorage.setItem('accessToken', data.access_token);
         console.log('Login successful:', data);
+        navigate('/marketplace');
       } else {
         throw new Error('Failed to login');
       }
@@ -96,12 +99,19 @@ const LoginPage = () => {
           Enter your Wallet ID
         </Typography>
         <TextField
-          variant="filled"
-          fullWidth
-          value={walletID}
-          onChange={(e) => setWalletID(e.target.value)}
-          placeholder="Enter your Wallet ID"
-          sx={{ mb: 2, input: { color: 'white' }, backgroundColor: 'rgba(255,255,255,0.1)' }}
+            variant="filled"
+            fullWidth
+            value={walletID}
+            onChange={(e) => setWalletID(e.target.value)}
+            placeholder="Enter your Wallet ID"
+            sx={{
+                mb: 2,
+                input: {
+                color: 'white',
+                backgroundColor: 'rgba(255,255,255,0.1)',
+                padding: '10px 14px',
+                }
+            }}
         />
         <Button onClick={handleLogin} variant="contained" sx={{ mt: 2, bgcolor: 'white', color: '#1E292E', ':hover': { backgroundColor: 'grey.300' }}}>
           Connect

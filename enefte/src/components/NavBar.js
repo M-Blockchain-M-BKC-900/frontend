@@ -3,10 +3,20 @@ import { Box, Button, Stack } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import TokenIcon from '@mui/icons-material/AccountBalanceWallet';
 import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import logo from '../assets/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
+  const navigate = useNavigate();
+
+  const isLoggedIn = sessionStorage.getItem('accessToken');
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('accessToken');
+    navigate('/login');
+  };
+
   return (
     <Box sx={{
       width: { xs: '200px', sm: '200px' },
@@ -56,23 +66,42 @@ const NavBar = () => {
         >
           Token
         </Button>
-        <Button
-          startIcon={<LoginIcon sx={{ color: '#1E292E'}} />}
-          variant="contained"
-          component={Link}
-          to="/login"
-          sx={{
-            backgroundColor: 'white',
-            color: '#1E292E',
-            borderRadius: 0,
-            width: '100%',
-            ':hover': {
-              backgroundColor: 'grey.300'
-            }
-          }}
-        >
-          Login
+        {isLoggedIn ? (
+          <Button
+            startIcon={<LogoutIcon sx={{ color: 'white' }} />}
+            variant="contained"
+            onClick={handleLogout}
+            sx={{
+              backgroundColor: '#cc0202',
+              color: 'white',
+              borderRadius: 0,
+              width: '100%',
+              ':hover': {
+                backgroundColor: '#990202'
+              }
+            }}
+          >
+            Logout
         </Button>
+        ) : (
+          <Button
+            startIcon={<LoginIcon sx={{ color: '#1E292E'}} />}
+            variant="contained"
+            component={Link}
+            to="/login"
+            sx={{
+              backgroundColor: 'white',
+              color: '#1E292E',
+              borderRadius: 0,
+              width: '100%',
+              ':hover': {
+                backgroundColor: 'grey.300'
+              }
+            }}
+          >
+            Login
+          </Button>
+        )}
       </Stack>
     </Box>
   );
