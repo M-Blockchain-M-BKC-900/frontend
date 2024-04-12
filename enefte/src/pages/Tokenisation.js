@@ -1,25 +1,12 @@
 import React, { useState } from 'react';
 import { Card, Button, Box, Typography } from '@mui/material';
-import ImageUpload from '../components/uploadImage';
 import CustomTextInput from '../components/customTextInput';
 
 function Tokenisation() {
-    const [image, setImage] = useState(null);
     const [tokenName, setTokenName] = useState('');
-    const [blockchainName, setBlockchainName] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
     const [tokenDescription, setTokenDescription] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
-
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
 
     const handleTokenNameChange = (event) => {
         setTokenName(event.target.value);
@@ -29,8 +16,8 @@ function Tokenisation() {
         setTokenDescription(event.target.value);
     };
 
-    const handleBlockchainNameChange = (event) => {
-        setBlockchainName(event.target.value);
+    const handleImageUrlChange = (event) => {
+        setImageUrl(event.target.value);
         fetchImageFromLink(event.target.value);
     };
 
@@ -57,7 +44,7 @@ function Tokenisation() {
         formData.append('token', accessToken);
         formData.append('title', tokenName)
         formData.append('text', tokenDescription)
-        formData.append('picture', String(blockchainName))
+        formData.append('picture', String(imageUrl))
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -78,14 +65,12 @@ function Tokenisation() {
             console.error('Login error:', error);
         }
     };
-
     const handleCancel = () => {
         if (imagePreview !== null) {
-            setImage(null);
             setImagePreview(null)
         }
         setTokenName('');
-        setBlockchainName('');
+        setImageUrl('');
     };
 
     return (
@@ -94,9 +79,13 @@ function Tokenisation() {
                 <Typography variant="h6" sx={{ mb: 2 }}>
                     Create your own NFT
                 </Typography>
-                <ImageUpload onImageChange={handleImageChange} imagePreview={imagePreview} />
+                {imagePreview && (
+                    <Box sx={{ textAlign: 'center', border: '1px solid #ccc', borderRadius: '5px', p: 1 }}>
+                        <img src={imagePreview} alt="" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+                    </Box>
+                )}
                 <CustomTextInput label="Token name" value={tokenName} onChange={handleTokenNameChange} />
-                <CustomTextInput label="Blockchain name" value={blockchainName} onChange={handleBlockchainNameChange} />
+                <CustomTextInput label="Image URL" value={imageUrl} onChange={handleImageUrlChange} />
                 <CustomTextInput label="Description" value={tokenDescription} onChange={handleTokenDescription} scalable={true} />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                     <Button variant="outlined" onClick={handleCancel} color="error">
