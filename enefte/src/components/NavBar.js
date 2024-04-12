@@ -9,7 +9,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const navigate = useNavigate();
-
   const isLoggedIn = sessionStorage.getItem('accessToken');
 
   const handleLogout = () => {
@@ -38,12 +37,12 @@ const NavBar = () => {
           component={Link}
           to="/marketplace"
           sx={{
-            backgroundColor: 'white',
+            backgroundColor: isLoggedIn ? 'white' : 'grey',
             color: '#1E292E',
             borderRadius: 0,
             width: '100%',
             ':hover': {
-              backgroundColor: 'grey.300'
+              backgroundColor: isLoggedIn ? 'grey.300' : 'grey'
             }
           }}
         >
@@ -55,12 +54,12 @@ const NavBar = () => {
           component={Link}
           to="/token"
           sx={{
-            backgroundColor: 'white',
+            backgroundColor: isLoggedIn ? 'white' : 'grey',
             color: '#1E292E',
             borderRadius: 0,
             width: '100%',
             ':hover': {
-              backgroundColor: 'grey.300'
+              backgroundColor: isLoggedIn ? 'grey.300' : 'grey'
             }
           }}
         >
@@ -82,7 +81,7 @@ const NavBar = () => {
             }}
           >
             Logout
-        </Button>
+          </Button>
         ) : (
           <Button
             startIcon={<LoginIcon sx={{ color: '#1E292E'}} />}

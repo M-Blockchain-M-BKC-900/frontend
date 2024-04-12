@@ -89,15 +89,17 @@ const LoginPage = () => {
         <TextField
             variant="filled"
             fullWidth
+            type="password"
             value={walletID}
             onChange={(e) => setWalletID(e.target.value)}
             placeholder="Enter your Wallet ID"
             sx={{
                 mb: 2,
                 input: {
-                color: 'white',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                padding: '10px 14px',
+                    color: 'white',
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    padding: '10px 14px',
+                    fontSize: '1.25rem',
                 }
             }}
         />
