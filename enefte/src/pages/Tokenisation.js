@@ -38,7 +38,7 @@ function Tokenisation() {
     };
 
     const handleConfirm = async () => {
-        const url = 'http://localhost:3000/nft/create';
+        const url = 'http://87.88.20.110:3000/nft/create';
         const accessToken = sessionStorage.getItem('accessToken');
         const formData = new URLSearchParams();
         formData.append('seed', accessToken);

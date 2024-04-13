@@ -9,7 +9,7 @@ const MyTokens = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        const url = 'http://localhost:3000/nft/findAll';
+        const url = 'http://87.88.20.110:3000/nft/findAll';
         const accessToken = sessionStorage.getItem('accessToken');
         fetch(url, {
             method: 'GET',

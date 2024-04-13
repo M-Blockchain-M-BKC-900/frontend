@@ -27,7 +27,7 @@ const Marketplace = () => {
     useEffect(() => {
 
         const fetchNFTs = async () => {
-            const url = 'http://localhost:3000/nft/marketplace';
+            const url = 'http://87.88.20.110:3000/nft/marketplace';
             const accessToken = sessionStorage.getItem('accessToken');
             const formData = new URLSearchParams();
             formData.append('token', accessToken);
