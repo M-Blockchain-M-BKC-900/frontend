@@ -1,55 +1,62 @@
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import Carousel from 'react-material-ui-carousel';
-import { Paper, Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Dialog, DialogTitle, DialogActions, Button, TextField } from '@mui/material';
 
-const NftCarousel = () => {
-  const [nfts, setNfts] = useState([]);
+const BuyNftPopup = ({ open, handleClose }) => {
+  const [price, setPrice] = useState('');
 
-  useEffect(() => {
-    setNfts([
-      { id: 82267, image: 'https://www.premiere.fr/sites/default/files/styles/scale_crop_1280x720/public/2022-06/Collage%20sans%20titre%20%2814%29_5.jpg', name: 'Bored Ape Yacht Club #8911', blockchain: 'testnet xrpl', date: '10/10/2024', description: "" },
-      { id: 26334, image: 'https://www.premiere.fr/sites/default/files/styles/scale_crop_1280x720/public/2022-06/Collage%20sans%20titre%20%2814%29_5.jpg', name: 'Bored Ape Yacht Club #8911', blockchain: 'testnet xrpl', date: '10/10/2024', description: "" },
-      { id: 2743, image: 'https://www.premiere.fr/sites/default/files/styles/scale_crop_1280x720/public/2022-06/Collage%20sans%20titre%20%2814%29_5.jpg', name: 'Bored Ape Yacht Club #8911', blockchain: 'testnet xrpl', date: '10/10/2024', description: "" },
-      { id: 1092, image: 'https://www.premiere.fr/sites/default/files/styles/scale_crop_1280x720/public/2022-06/Collage%20sans%20titre%20%2814%29_5.jpg', name: 'Bored Ape Yacht Club #8911', blockchain: 'testnet xrpl', date: '10/10/2024', description: "" },
-      { id: 26314, image: 'https://www.premiere.fr/sites/default/files/styles/scale_crop_1280x720/public/2022-06/Collage%20sans%20titre%20%2814%29_5.jpg', name: 'Bored Ape Yacht Club #8911', blockchain: 'testnet xrpl', date: '10/10/2024', description: "" },
-      { id: 2733, image: 'https://www.premiere.fr/sites/default/files/styles/scale_crop_1280x720/public/2022-06/Collage%20sans%20titre%20%2814%29_5.jpg', name: 'Bored Ape Yacht Club #8911', blockchain: 'testnet xrpl', date: '10/10/2024', description: "" },
-      { id: 10132, image: 'https://www.premiere.fr/sites/default/files/styles/scale_crop_1280x720/public/2022-06/Collage%20sans%20titre%20%2814%29_5.jpg', name: 'Bored Ape Yacht Club #8911', blockchain: 'testnet xrpl', date: '10/10/2024', description: "" }
-    ]);
-  }, []); 
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
+  };
 
-  const handleExchange = (id) => {
-    console.log(`You exchanged your nft: ${id}`);
+  const handleOfferSubmit = () => {
+    const url = 'http://87.88.20.110:3000/nft/createBuyOffer';
+    const accessToken = sessionStorage.getItem('accessToken');
+    const formData = new URLSearchParams();
+    formData.append('seed', accessToken);
+    formData.append('wallet_dest', "")
+    formData.append('NFT_ID', "")
+    formData.append('price', String(price))
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          console.log("Data received:", data);
+        } else {
+          console.log("No tokens available at the moment.");
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching tokens:", error);
+      });
   };
 
   return (
-    <Carousel>
-      {nfts.map((nft, index) => (
-        <Paper key={index} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
-          <Typography variant="h6" gutterBottom>
-            {nft.name}
-          </Typography>
-          <img src={nft.image} alt={`NFT ${nft.name}`} style={{ width: '100%', height: 'auto' }} />
-          <Button variant="contained" color="primary" onClick={() => handleExchange(nft.id)}>
-            Exchange
-          </Button>
-        </Paper>
-      ))}
-    </Carousel>
-  );
-};
-
-export default function BuyNftPopup({ open, handleClose }) {
-  return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogTitle>Exchange an NFT</DialogTitle>
-      <DialogContent>
-        <NftCarousel />
-      </DialogContent>
+      <DialogTitle>Make an Offer</DialogTitle>
+      <div style={{ padding: '20px' }}>
+        <TextField
+          label="Price"
+          type="number"
+          value={price}
+          onChange={handlePriceChange}
+          fullWidth
+        />
+      </div>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleOfferSubmit} variant="contained" color="primary">
+          Make Offer
+        </Button>
       </DialogActions>
     </Dialog>
   );
-}
+};
 
+export default BuyNftPopup;

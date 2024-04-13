@@ -76,6 +76,8 @@ const NFTCard = ({ nft }) => {
         <Typography variant="h6" color="text.primary" fontWeight='bold'>
           {nft.title}
         </Typography>
+        <Grid container justifyContent="space-between" marginTop={2}>
+        </Grid>
       </CardContent>
       <StyledCardContent></StyledCardContent>
       <ShowNftInfo open={openPopup} handleClose={handleClosePopup} handleBuy={handleBuy} nft={nft} />
