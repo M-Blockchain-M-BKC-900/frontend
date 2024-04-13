@@ -4,6 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import TokenIcon from '@mui/icons-material/AccountBalanceWallet';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import logo from '../assets/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -32,7 +33,7 @@ const NavBar = () => {
       <img src={logo} alt="Logo" style={{ marginBottom: '20px', height: '50px' }} />
       <Stack direction="column" spacing={2} sx={{ width: '100%' }}>
         <Button
-          startIcon={<HomeIcon sx={{ color: '#1E292E' }} />}
+          startIcon={<LocalGroceryStoreIcon sx={{ color: '#1E292E' }} />}
           variant="contained"
           component={Link}
           to="/marketplace"
@@ -46,7 +47,7 @@ const NavBar = () => {
             }
           }}
         >
-          Home
+          MARKETPLACE
         </Button>
         <Button
           startIcon={<TokenIcon sx={{ color: '#1E292E' }} />}
@@ -64,6 +65,23 @@ const NavBar = () => {
           }}
         >
           Token
+        </Button>
+        <Button
+          startIcon={<HomeIcon sx={{ color: '#1E292E' }} />}
+          variant="contained"
+          component={Link}
+          to="/myTokens"
+          sx={{
+            backgroundColor: isLoggedIn ? 'white' : 'grey',
+            color: '#1E292E',
+            borderRadius: 0,
+            width: '100%',
+            ':hover': {
+              backgroundColor: isLoggedIn ? 'grey.300' : 'grey'
+            }
+          }}
+        >
+          HOME
         </Button>
         {isLoggedIn ? (
           <Button

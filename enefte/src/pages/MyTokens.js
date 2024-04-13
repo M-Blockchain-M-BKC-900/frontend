@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NFTCard from '../components/nftCards';
 import { Grid, Box } from '@mui/material';
 
-const Marketplace = () => {
+const MyTokens = () => {
     const [nfts, setNfts] = useState([]);
 
     function concatNfts(nftsData) {
@@ -27,7 +27,7 @@ const Marketplace = () => {
     useEffect(() => {
 
         const fetchNFTs = async () => {
-            const url = 'http://localhost:3000/nft/marketplace';
+            const url = 'http://localhost:3000/nft/findAll';
             const accessToken = sessionStorage.getItem('accessToken');
             const formData = new URLSearchParams();
             formData.append('token', accessToken);
@@ -40,6 +40,7 @@ const Marketplace = () => {
                     },
                 });
                 const data = await response.json();
+                console.log(data)
                 if (response.ok) {
                     const tmp = concatNfts(data);
                     setNfts(tmp)
@@ -66,4 +67,4 @@ const Marketplace = () => {
     );
 };
 
-export default Marketplace;
+export default MyTokens;

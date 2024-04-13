@@ -69,31 +69,13 @@ const NFTCard = ({ nft }) => {
     >
       <CardMedia
         component="img"
-        image={nft.image}
-        alt={`NFT ${nft.name}`}
+        image={nft.url}
+        alt={`NFT ${nft.title}`}
       />
       <CardContent>
         <Typography variant="h6" color="text.primary" fontWeight='bold'>
-          {nft.name}
+          {nft.title}
         </Typography>
-        <Grid container justifyContent="space-between" marginTop={2}>
-          <Box>
-            <Typography variant="body2" color="text.secondary">
-              Date
-            </Typography>
-            <Typography variant="body2" color="text.primary" fontWeight='bold'>
-              {nft.date}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography variant="body2" color="text.secondary">
-              Blockchain
-            </Typography>
-            <Typography variant="body2" color="text.primary" fontWeight='bold'>
-              {nft.blockchain}
-            </Typography>
-          </Box>
-        </Grid>
       </CardContent>
       <StyledCardContent></StyledCardContent>
       <ShowNftInfo open={openPopup} handleClose={handleClosePopup} handleBuy={handleBuy} nft={nft} />

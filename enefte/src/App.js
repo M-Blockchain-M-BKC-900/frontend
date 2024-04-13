@@ -5,6 +5,7 @@ import Marketplace from './pages/Marketplace';
 import LoginPage from './pages/LoginPage';
 import Tokenisation from './pages/Tokenisation';
 import ProtectedRoute from './components/ProtectedRoute';
+import MyTokens from './pages/MyTokens'
 import { Box } from '@mui/material';
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
               <Route path="/login" element={isLoggedIn ? <Navigate to="/marketplace" /> : <LoginPage />} />
               <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
               <Route path="/token" element={<ProtectedRoute><Tokenisation /></ProtectedRoute>} />
+              <Route path="/myTokens" element={<ProtectedRoute><MyTokens /></ProtectedRoute>} />
             </Routes>
           </Box>
         </Box>

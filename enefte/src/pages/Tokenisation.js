@@ -38,10 +38,10 @@ function Tokenisation() {
     };
 
     const handleConfirm = async () => {
-        const url = 'http://localhost:3000/nft';
+        const url = 'http://localhost:3000/nft/create';
         const accessToken = sessionStorage.getItem('accessToken');
         const formData = new URLSearchParams();
-        formData.append('token', accessToken);
+        formData.append('seed', accessToken);
         formData.append('title', tokenName)
         formData.append('text', tokenDescription)
         formData.append('picture', String(imageUrl))
@@ -55,9 +55,13 @@ function Tokenisation() {
                 body: formData
             });
             const data = await response.json();
-            console.log(response)
+            console.log('coucou', response)
             if (response.ok) {
-                console.log("coucou les loulous")
+                setImagePreview(null);
+                alert("NFT created successfully!");
+                setTokenName('');
+                setTokenDescription('');
+                console.log("Token creation success")
             } else {
                 throw new Error('Fail sending request');
             }
