@@ -11,8 +11,8 @@ export default function ShowNftInfo({ open, handleClose, handleBuy, nft }) {
                 <Typography marginTop={'10px'}>{nft.description}</Typography>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Annuler</Button>
-                <Button variant="contained" color="primary" onClick={() => handleBuy(nft.nftId)}>Acheter</Button>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button variant="contained" color="primary" onClick={() => handleBuy(nft.nftId)}>Make an offer</Button>
             </DialogActions>
         </Dialog>
     );

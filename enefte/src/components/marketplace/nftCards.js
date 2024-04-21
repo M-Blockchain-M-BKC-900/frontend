@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import { Typography, Grid, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ShowNftInfo from './ShowNftInfo';
-import BuyNftPopup from './nftCarousel';
+import BuyNftPopup from './BuyNftPopup';
 import { wait } from '@testing-library/user-event/dist/utils';
 
 const StyledCard = styled(Card)({
@@ -37,7 +37,7 @@ const StyledCardActions = styled(CardActions)({
 const NFTCard = ({ nft }) => {
   const [hover, setHover] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [openCarousel, setOpenCarousel] = useState(false);
+  const [openOfferPopup, setOpenOfferPopup] = useState(false);
 
   const handleOpenPopup = () => {
     setOpenPopup(true);
@@ -47,18 +47,18 @@ const NFTCard = ({ nft }) => {
     setOpenPopup(false);
   };
 
-  const handleOpenCarousel = () => {
-    setOpenCarousel(true);
+  const handleOpenOfferPopup = () => {
+    setOpenOfferPopup(true);
   };
 
-  const handleCloseCarousel = () => {
-    setOpenCarousel(false);
+  const handleCloseOfferPopup = () => {
+    setOpenOfferPopup(false);
   };
 
   const handleBuy = (product) => {
     handleClosePopup();
     setTimeout(() => {
-      handleOpenCarousel();
+      handleOpenOfferPopup();
     }, 1000);
   };
 
@@ -81,7 +81,7 @@ const NFTCard = ({ nft }) => {
       </CardContent>
       <StyledCardContent></StyledCardContent>
       <ShowNftInfo open={openPopup} handleClose={handleClosePopup} handleBuy={handleBuy} nft={nft} />
-      <BuyNftPopup open={openCarousel} handleClose={handleCloseCarousel} />
+      <BuyNftPopup open={openOfferPopup} handleClose={handleCloseOfferPopup} nft={nft} />
       <StyledCardActions style={{ opacity: hover ? 1 : 0 }}>
         <Button
           variant='contained'

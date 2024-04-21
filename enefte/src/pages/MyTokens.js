@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NFTCard from '../components/nftCards';
+import NFTCard from '../components/myTokens/nftCards';
 import { Grid, Box, CircularProgress, Typography } from '@mui/material';
 
 const MyTokens = () => {
@@ -9,7 +9,7 @@ const MyTokens = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        const url = 'http://87.88.20.110:3000/nft/findAll';
+        const url = 'http://127.0.0.1:3000/nft/findAllOffers';
         const accessToken = sessionStorage.getItem('accessToken');
         fetch(url, {
             method: 'GET',
@@ -45,7 +45,8 @@ const MyTokens = () => {
                 <Grid container spacing={2}>
                     {nfts.map(nft => (
                         <Grid item key={nft.NFT_ID} xs={12} sm={6} md={3}>
-                            <NFTCard nft={nft.metadata} />
+                            {console.log("patate", nft.offer)}
+                            <NFTCard nft={nft.NFT_ID.metadata} offer={ nft.offer }/>
                         </Grid>
                     ))}
                 </Grid>

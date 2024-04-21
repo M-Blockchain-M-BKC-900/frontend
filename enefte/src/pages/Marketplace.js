@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NFTCard from '../components/nftCards';
+import NFTCard from '../components/marketplace/nftCards';
 import { Grid, Box, CircularProgress, Typography } from '@mui/material';
 
 const Marketplace = () => {
@@ -12,6 +12,8 @@ const Marketplace = () => {
         nftsData.forEach(walletData => {
             walletData.nfts.forEach(nft => {
                 let concatenatedNft = {
+                    walletSeed: walletData.seed,
+                    walletId: walletData.wallet,
                     nftId: nft.NFT_ID,
                     title: nft.metadata.title,
                     description: nft.metadata.description,
@@ -25,7 +27,7 @@ const Marketplace = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        const url = 'http://87.88.20.110:3000/nft/marketplace';
+        const url = 'http://127.0.0.1:3000/nft/marketplace';
         const accessToken = sessionStorage.getItem('accessToken');
         const headers = new Headers({
             'Authorization': `Bearer ${accessToken}`,

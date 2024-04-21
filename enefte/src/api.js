@@ -1,5 +1,5 @@
 export const login = async (seed) => {
-    const url = 'http://87.88.20.110:3000/auth/login';
+    const url = 'http://127.0.0.1:3000/auth/login';
     const formData = new URLSearchParams();
     formData.append('seed', seed);
   
@@ -14,7 +14,7 @@ export const login = async (seed) => {
   };
   
   export const createWallet = async () => {
-    const response = await fetch('http://87.88.20.110:3000/auth/create');
+    const response = await fetch('http://127.0.0.1:3000/auth/create');
     return response;
   };
   

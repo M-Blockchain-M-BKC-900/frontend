@@ -1,42 +1,40 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogActions, Button, TextField } from '@mui/material';
 
-const BuyNftPopup = ({ open, handleClose }) => {
+const BuyNftPopup = ({ open, handleClose, nft }) => {
   const [price, setPrice] = useState('');
 
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
   };
-
   const handleOfferSubmit = () => {
-    const url = 'http://87.88.20.110:3000/nft/createBuyOffer';
+    const url = 'http://127.0.0.1:3000/nft/createBuyOffer';
     const accessToken = sessionStorage.getItem('accessToken');
-    const formData = new URLSearchParams();
-    formData.append('seed', accessToken);
-    formData.append('wallet_dest', "")
-    formData.append('NFT_ID', "")
-    formData.append('price', String(price))
-    fetch(url, {
+    const queryParams = new URLSearchParams({
+      seed: accessToken,
+      wallet_dest: nft.walletId,
+      NFT_ID: nft.nftId,
+      price: price
+    });
+    fetch(`${url}?${queryParams.toString()}`, {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer ' + accessToken,
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: formData
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data && data.length > 0) {
-          console.log("Data received:", data);
-        } else {
-          console.log("No tokens available at the moment.");
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching tokens:", error);
-      });
+    .then(response => {
+      console.log(response)
+      if (!response.ok) {
+        throw new Error('Failed to submit offer');
+      }
+      handleClose()
+    })
+    .catch(error => {
+      console.error("Error submiting offer:", error);
+    });
   };
-
+  
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle>Make an Offer</DialogTitle>

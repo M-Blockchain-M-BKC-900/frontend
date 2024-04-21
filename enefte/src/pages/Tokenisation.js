@@ -38,7 +38,7 @@ function Tokenisation() {
     };
 
     const handleConfirm = async () => {
-        const url = 'http://87.88.20.110:3000/nft/create';
+        const url = 'http://127.0.0.1:3000/nft/create';
         const accessToken = sessionStorage.getItem('accessToken');
         const formData = new URLSearchParams();
         formData.append('seed', accessToken);
@@ -55,7 +55,6 @@ function Tokenisation() {
                 body: formData
             });
             const data = await response.json();
-            console.log('coucou', response)
             if (response.ok) {
                 setImagePreview(null);
                 alert("NFT created successfully!");
