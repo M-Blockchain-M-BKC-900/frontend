@@ -29,6 +29,7 @@ const NavBar = () => {
       alignItems: 'center',
       justifyContent: 'start',
       padding: '20px 0',
+      
     }}>
       <img src={logo} alt="Logo" style={{ marginBottom: '20px', height: '50px' }} />
       <Stack direction="column" spacing={2} sx={{ width: '100%' }}>

@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import NFTCard from '../components/marketplace/nftCards';
-import { Grid, Box, CircularProgress, Typography } from '@mui/material';
+import { Grid, Box, CircularProgress, Typography, Button, Modal, TextField, DialogActions } from '@mui/material';
+import { createOffer } from '../api';
 
 const Marketplace = () => {
     const [nfts, setNfts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [openOfferPopup, setOpenOfferPopup] = useState(false);
+    const [walletId, setWalletId] = useState('');
+    const [nftId, setNftId] = useState('');
+    const [price, setPrice] = useState('');
 
     function concatNfts(nftsData) {
         let concatenatedNfts = [];
@@ -27,7 +32,7 @@ const Marketplace = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        const url = 'http://127.0.0.1:3000/nft/marketplace';
+        const url = 'https://87.88.20.110:3000/nft/marketplace';
         const accessToken = sessionStorage.getItem('accessToken');
         const headers = new Headers({
             'Authorization': `Bearer ${accessToken}`,
@@ -51,12 +56,39 @@ const Marketplace = () => {
             });
     }, []);
 
+    const handleOpenOfferPopup = () => {
+        setOpenOfferPopup(true);
+    };
+
+    const handleCloseOfferPopup = () => {
+        setOpenOfferPopup(false);
+    };
+
+    const handleConfirmOffer = async () => {
+        try {
+            const response = await createOffer(walletId, nftId, price);
+            if (response.ok) {
+                console.log('Offer successfully created!');
+            } else {
+                console.error('Failed to create offer');
+            }
+        } catch (error) {
+            console.error('Error creating offer:', error);
+        } finally {
+
+            setWalletId('');
+            setNftId('');
+            setPrice('');
+            setOpenOfferPopup(false);
+        }
+    };
+
     return (
-        <Box sx={{ width: '100%', marginLeft: 'auto', mt: 2 }}>
+        <Box sx={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
+            <Button variant="contained" onClick={handleOpenOfferPopup} sx={{ mb: 2 }}>Make Offer</Button>
+
             {isLoading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <CircularProgress />
-                </Box>
+                <CircularProgress />
             ) : error ? (
                 <Typography variant="h6" textAlign="center">{error}</Typography>
             ) : (
@@ -72,6 +104,37 @@ const Marketplace = () => {
                     )}
                 </Grid>
             )}
+
+            <Modal open={openOfferPopup} onClose={handleCloseOfferPopup} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2, borderRadius: 1 }}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>Make Offer</Typography>
+                    <TextField
+                        label="Wallet ID"
+                        value={walletId}
+                        onChange={(e) => setWalletId(e.target.value)}
+                        fullWidth
+                        sx={{ mb: 2 }}
+                    />
+                    <TextField
+                        label="NFT ID"
+                        value={nftId}
+                        onChange={(e) => setNftId(e.target.value)}
+                        fullWidth
+                        sx={{ mb: 2 }}
+                    />
+                    <TextField
+                        label="Price"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        fullWidth
+                        sx={{ mb: 2 }}
+                    />
+                    <DialogActions>
+                        <Button onClick={handleCloseOfferPopup}>Cancel</Button>
+                        <Button onClick={handleConfirmOffer} variant="contained" color="primary">Confirm</Button>
+                    </DialogActions>
+                </Box>
+            </Modal>
         </Box>
     );
 };

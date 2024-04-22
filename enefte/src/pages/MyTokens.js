@@ -9,7 +9,7 @@ const MyTokens = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        const url = 'http://127.0.0.1:3000/nft/findAllOffers';
+        const url = 'https://87.88.20.110:3000/nft/findAllOffers';
         const accessToken = sessionStorage.getItem('accessToken');
         fetch(url, {
             method: 'GET',
@@ -36,7 +36,7 @@ const MyTokens = () => {
     }, []);
 
     return (
-        <Box sx={{ width: '100%', padding: 3 }}>
+        <Box sx={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 3 }}>
             {isLoading ? (
                 <CircularProgress />
             ) : error ? (

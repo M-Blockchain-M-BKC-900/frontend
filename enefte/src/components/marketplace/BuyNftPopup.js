@@ -11,7 +11,7 @@ const BuyNftPopup = ({ open, handleClose, nft }) => {
   };
 
   const handleOfferSubmit = () => {
-    const url = 'http://127.0.0.1:3000/nft/createBuyOffer';
+    const url = 'https://87.88.20.110:3000/nft/createBuyOffer';
     const accessToken = sessionStorage.getItem('accessToken');
     const queryParams = new URLSearchParams({
       seed: accessToken,
