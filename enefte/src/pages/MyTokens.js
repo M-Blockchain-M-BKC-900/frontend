@@ -45,8 +45,7 @@ const MyTokens = () => {
                 <Grid container spacing={2}>
                     {nfts.map(nft => (
                         <Grid item key={nft.NFT_ID} xs={12} sm={6} md={3}>
-                            {console.log("patate", nft.offer)}
-                            <NFTCard nft={nft.NFT_ID.metadata} offer={ nft.offer }/>
+                            <NFTCard nft={nft.NFT_ID.metadata} offer={nft.offer} />
                         </Grid>
                     ))}
                 </Grid>

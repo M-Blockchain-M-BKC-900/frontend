@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Box, Typography } from '@mui/material';
+import { Card, Button, Box, Typography, CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import CustomTextInput from '../components/customTextInput';
 
 function Tokenisation() {
@@ -7,6 +7,9 @@ function Tokenisation() {
     const [imageUrl, setImageUrl] = useState('');
     const [tokenDescription, setTokenDescription] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [successDialogOpen, setSuccessDialogOpen] = useState(false);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
     const handleTokenNameChange = (event) => {
         setTokenName(event.target.value);
@@ -38,7 +41,8 @@ function Tokenisation() {
     };
 
     const handleConfirm = async () => {
-        const url = 'http://127.0.0.1:3000/nft/create';
+        setLoading(true);
+        const url = 'http://localhost:3000/nft/create';
         const accessToken = sessionStorage.getItem('accessToken');
         const formData = new URLSearchParams();
         formData.append('seed', accessToken);
@@ -54,31 +58,43 @@ function Tokenisation() {
                 },
                 body: formData
             });
-            const data = await response.json();
             if (response.ok) {
+                setSuccessDialogOpen(true);
                 setImagePreview(null);
-                alert("NFT created successfully!");
                 setTokenName('');
                 setTokenDescription('');
                 console.log("Token creation success")
             } else {
-                throw new Error('Fail sending request');
+                setErrorDialogOpen(true);
             }
         } catch (error) {
             console.error('Login error:', error);
+            setErrorDialogOpen(true);
+        } finally {
+            setLoading(false);
         }
     };
+
     const handleCancel = () => {
         if (imagePreview !== null) {
             setImagePreview(null)
         }
+        setLoading(false);
         setTokenName('');
         setImageUrl('');
     };
 
+    const handleCloseSuccessDialog = () => {
+        setSuccessDialogOpen(false);
+    };
+
+    const handleCloseErrorDialog = () => {
+        setErrorDialogOpen(false);
+    };
+
     return (
-        <Box sx={{ width: '100%', marginLeft: 'auto' }}>
-            <Card sx={{ p: 3, width: '20%', margin: 'auto' }}>
+        <Box sx={{ width: '100%', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Card sx={{ p: 3, width: '20%' }}>
                 <Typography variant="h6" sx={{ mb: 2 }}>
                     Create your own NFT
                 </Typography>
@@ -94,11 +110,37 @@ function Tokenisation() {
                     <Button variant="outlined" onClick={handleCancel} color="error">
                         Cancel
                     </Button>
-                    <Button variant="contained" onClick={handleConfirm}>
-                        Confirm
+                    <Button variant="contained" onClick={handleConfirm} disabled={!tokenName || !imageUrl || !tokenDescription || loading}>
+                        {loading ? <CircularProgress size={24} /> : 'Confirm'}
                     </Button>
                 </Box>
             </Card>
+            <Dialog open={successDialogOpen} onClose={handleCloseSuccessDialog}>
+                <DialogTitle>NFT Created</DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        NFT created successfully!
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseSuccessDialog} color="primary">
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={errorDialogOpen} onClose={handleCloseErrorDialog}>
+                <DialogTitle>Error</DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        Failed to create NFT. Please try again later.
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseErrorDialog} color="primary">
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 }

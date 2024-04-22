@@ -75,6 +75,7 @@ const NFTCard = ({ nft, offer }) => {
           component="img"
           image={nft.url}
           alt={`NFT ${nft.title}`}
+          sx={{ height: 200 }}
         />
         <CardContent>
           <Typography variant="h6" color="text.primary" fontWeight='bold'>

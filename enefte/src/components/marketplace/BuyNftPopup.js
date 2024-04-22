@@ -3,10 +3,13 @@ import { Dialog, DialogTitle, DialogActions, Button, TextField } from '@mui/mate
 
 const BuyNftPopup = ({ open, handleClose, nft }) => {
   const [price, setPrice] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
   };
+
   const handleOfferSubmit = () => {
     const url = 'http://127.0.0.1:3000/nft/createBuyOffer';
     const accessToken = sessionStorage.getItem('accessToken');
@@ -24,19 +27,25 @@ const BuyNftPopup = ({ open, handleClose, nft }) => {
       },
     })
     .then(response => {
-      console.log(response)
       if (!response.ok) {
         throw new Error('Failed to submit offer');
       }
-      handleClose()
+      setSuccess(true);
     })
     .catch(error => {
       console.error("Error submiting offer:", error);
+      setError(true);
     });
   };
   
+  const handleClosePopup = () => {
+    setSuccess(false);
+    setError(false);
+    handleClose();
+  };
+
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={handleClosePopup} maxWidth="md" fullWidth>
       <DialogTitle>Make an Offer</DialogTitle>
       <div style={{ padding: '20px' }}>
         <TextField
@@ -48,11 +57,25 @@ const BuyNftPopup = ({ open, handleClose, nft }) => {
         />
       </div>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClosePopup}>Cancel</Button>
         <Button onClick={handleOfferSubmit} variant="contained" color="primary">
           Make Offer
         </Button>
       </DialogActions>
+
+      <Dialog open={success} onClose={handleClosePopup}>
+        <DialogTitle>Offre has been sent</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClosePopup} color="primary">OK</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={error} onClose={handleClosePopup}>
+        <DialogTitle>Error</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClosePopup} color="primary">OK</Button>
+        </DialogActions>
+      </Dialog>
     </Dialog>
   );
 };
